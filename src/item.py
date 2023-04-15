@@ -47,7 +47,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open('spc/items.csv', encoding='cp1251' 'r') as csvfile:
+        with open('src/items.csv', encoding='windows-1251') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 name = row['name']
