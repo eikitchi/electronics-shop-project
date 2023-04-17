@@ -66,3 +66,8 @@ def test_item_instantiation_from_csv():
     assert Item.all[1].name == "Клавиатура"
     assert Item.all[1].price == 1500.0
     assert Item.all[1].quantity == 10
+
+
+def test_string_to_number():
+    assert Item.string_to_number('10') == 10
+    assert Item.string_to_number('10.0') == 10.0
