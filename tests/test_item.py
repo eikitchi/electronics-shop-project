@@ -59,15 +59,25 @@ def test_item_discount():
 
 def test_item_instantiation_from_csv():
     Item.instantiate_from_csv()
-    assert len(Item.all) == 2
-    assert Item.all[0].name == "Мышь"
-    assert Item.all[0].price == 800.0
-    assert Item.all[0].quantity == 20
-    assert Item.all[1].name == "Клавиатура"
-    assert Item.all[1].price == 1500.0
-    assert Item.all[1].quantity == 10
+    assert len(Item.all) == 5
+    assert Item.all[0].name == "Смартфон"
+    assert Item.all[0].price == 100
+    assert Item.all[0].quantity == 1
+    assert Item.all[1].name == "Ноутбук"
+    assert Item.all[1].price == 1000
+    assert Item.all[1].quantity == 3
 
 
 def test_string_to_number():
     assert Item.string_to_number('10') == 10
     assert Item.string_to_number('10.0') == 10.0
+
+
+def test_repr():
+    item = Item('Test Item', 10, 2)
+    assert repr(item) == "Item('Test Item', 10, 2)"
+
+
+def test_str():
+    item = Item('Test Item', 10, 2)
+    assert str(item) == "Test Item"

@@ -59,3 +59,9 @@ class Item:
     @staticmethod
     def string_to_number(string):
         return int(float(string)) if '.' in string else int(string)
+
+    def __repr__(self):
+        return f"Item('{self.name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return self.name
