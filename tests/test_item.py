@@ -1,12 +1,7 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
-import pytest
+
 
 from src.item import Item
-
-
-@pytest.fixture
-def new_item():
-    yield Item("item1", 100.0, 5)
 
 
 def test_calculate_total_price(new_item):
@@ -59,13 +54,13 @@ def test_item_discount():
 
 def test_item_instantiation_from_csv():
     Item.instantiate_from_csv()
-    assert len(Item.all) == 5
-    assert Item.all[0].name == "Смартфон"
+    assert len(Item.all) == 14
+    assert Item.all[0].name == 'item1'
     assert Item.all[0].price == 100
-    assert Item.all[0].quantity == 1
-    assert Item.all[1].name == "Ноутбук"
-    assert Item.all[1].price == 1000
-    assert Item.all[1].quantity == 3
+    assert Item.all[0].quantity == 5
+    assert Item.all[1].name == 'item1'
+    assert Item.all[1].price == 90.0
+    assert Item.all[1].quantity == 5
 
 
 def test_string_to_number():
@@ -81,3 +76,9 @@ def test_repr():
 def test_str():
     item = Item('Test Item', 10, 2)
     assert str(item) == "Test Item"
+
+
+def test_add(new_item, new_phone):
+    assert new_item.quantity + new_phone.quantity == 15
+    item1 = Item("Смартфон", 10000, 20)
+    assert item1.quantity + new_item.quantity == 25

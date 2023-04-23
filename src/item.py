@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 class Item:
@@ -46,10 +47,12 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
-        cls.all = []
-        with open('../src/items.csv', encoding='windows-1251') as csvfile:
-            reader = csv.DictReader(csvfile)
+    def instantiate_from_csv(cls) -> None:
+        """
+        Инициализирует все товара из файла csv.
+        """
+        with open(os.path.join(os.path.dirname(__file__), "items.csv"), 'r') as f:
+            reader = csv.DictReader(f)
             for row in reader:
                 name = row['name']
                 price = cls.string_to_number(row['price'])
@@ -61,7 +64,11 @@ class Item:
         return int(float(string)) if '.' in string else int(string)
 
     def __repr__(self):
-        return f"Item('{self.name}', {self.price}, {self.quantity})"
+        return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
 
     def __str__(self):
         return self.name
+
+    def __add__(self, other):
+        if issubclass(other.__class__, self.__class__):
+            return self.quantity + other.quantity
