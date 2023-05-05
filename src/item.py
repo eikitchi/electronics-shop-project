@@ -3,12 +3,8 @@ import os
 
 
 class InstantiateCSVError(Exception):
-    # def __init__(self, *args, **kwargs):
-    #     self.message = args[0] if args else 'Файл item.csv поврежден'
-    #
-    # def __str__(self):
-    #     return f'{self.__class__.__name__}: Файл item. .csv поврежден'
-    pass
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else 'Файл item.csv поврежден'
 
 
 class Item:
@@ -64,15 +60,19 @@ class Item:
         try:
             with open(os.path.join(os.path.dirname(__file__), "items.csv"), 'r') as f:
                 reader = csv.DictReader(f)
-                for row in reader:
-                    if not all(key in row for key in ("name", "price", "quantity")):
-                        raise InstantiateCSVError("Файл item.csv поврежден")
-                    name = row['name']
-                    price = cls.string_to_number(row['price'])
-                    quantity = int(row['quantity'])
-                    cls(name, price, quantity)
+                cls.all = []
+                for i in reader:
+                    try:
+                        if len(i) != 3 or i.get('name') is None or i.get('price') is None or i.get('quantity') is None:
+                            raise InstantiateCSVError
+                    except InstantiateCSVError as err:
+                        print(err.message)
+                        break
+                    else:
+                        cls(i['name'], i['price'], i['quantity'])
+
         except FileNotFoundError:
-            raise FileNotFoundError("Отсутствует файл item.csv")
+            print('FileNotFoundError: Отсутствует файл item.csv')
 
     @staticmethod
     def string_to_number(string):
